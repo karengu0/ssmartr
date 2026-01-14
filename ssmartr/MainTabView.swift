@@ -9,26 +9,42 @@ import SwiftUI
 import SwiftData
 
 struct MainTabView: View {
+#if DEBUG
+    @State private var showDebugMenu = false
+#endif
+
     var body: some View {
-        TabView {
+        NavigationStack {
+            TabView {
 
-            OverviewTabView()
-                .tabItem {
-                    Image(systemName: "chart.pie")
-                    Text("Overview")
-                }
-            
-            TransactionTabView()
-                .tabItem {
-                    Image(systemName: "square.and.pencil")
-                    Text("Categorize")
-                }
+                OverviewTabView()
+                    .tabItem {
+                        Image(systemName: "chart.pie")
+                        Text("Overview")
+                    }
+                
+                TransactionTabView()
+                    .tabItem {
+                        Image(systemName: "square.and.pencil")
+                        Text("Categorize")
+                    }
 
-            SettingsTabView()
-                .tabItem {
-                    Image(systemName: "gearshape")
-                    Text("Settings")
-                }
+                SettingsTabView()
+                    .tabItem {
+                        Image(systemName: "gearshape")
+                        Text("Settings")
+                    }
+            }
         }
+    #if DEBUG
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Debug") { showDebugMenu = true }
+            }
+        }
+        .sheet(isPresented: $showDebugMenu) {
+            DebugMenuView()
+        }
+    #endif
     }
 }

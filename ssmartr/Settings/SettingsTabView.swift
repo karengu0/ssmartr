@@ -9,6 +9,9 @@ import SwiftUI
 import SwiftData
 
 struct SettingsTabView: View {
+    
+    @Environment(\.modelContext) private var modelContext
+    
     @Query(sort: \Category.createdAt) private var categories: [Category]
     @Query(sort: \BankAccount.institutionName) private var accounts: [BankAccount]
 
@@ -28,7 +31,7 @@ struct SettingsTabView: View {
                     }
 
                     NavigationLink("Add Category") {
-                        NewCategoryView()
+                        NewCategoryView(onDone: {})
                     }
                 }
 
@@ -52,6 +55,7 @@ struct SettingsTabView: View {
                         // present Plaid Link here
                     }
                 }
+
             }
             .navigationTitle("Settings")
         }

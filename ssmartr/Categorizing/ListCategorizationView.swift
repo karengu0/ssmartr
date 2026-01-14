@@ -16,15 +16,28 @@ struct ListCategorizationView: View {
 
     var body: some View {
         List(transactions, id: \.id, selection: $selected) { tx in
-            VStack(alignment: .leading) {
-                Text(tx.vendor)
-                    .font(.headline)
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    Text(tx.vendor)
+                        .font(.headline)
+                    Spacer()
+                    Text("$\(Double(tx.amountCents) / 100.0, specifier: "%.2f")")
+                        .font(.subheadline)
+                }
                 Text(tx.transactionDate, style: .date)
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                Text("$\(Double(tx.amountCents) / 100.0, specifier: "%.2f")")
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                // Toggle selection on tap (single-select or multi-select)
+                if selected.contains(tx.id) {
+                    selected.remove(tx.id)
+                } else {
+                    selected.insert(tx.id)
+                }
             }
         }
-        // Multi-select later; basic list is fine for now.
+        .environment(\.editMode, .constant(.active))
     }
 }

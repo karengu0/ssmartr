@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct ssmartrApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppRootView()
         }
+        .modelContainer(for: [Category.self, Transaction.self, BankAccount.self])
     }
 }
